@@ -46,9 +46,6 @@ for i in range (0, len(reviews.rating)):
 	except:
 		pass
 
-print clean_train_reviews
-print rating_list
-
 vectorizer = CountVectorizer(analyzer = "word", tokenizer = None, \
                              preprocessor = None, stop_words = None, \
                              max_features = 1600)
@@ -71,5 +68,5 @@ scaler = preprocessing.StandardScaler().fit(list_features)
 list_features = np.array(list_features)
 
 fileObject = open('STDSCALER', 'wb')
-pickle.dump(scaler, fileObject2)
+pickle.dump(scaler, fileObject)
 fileObject.close()
