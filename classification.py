@@ -4,6 +4,9 @@ from nltk.corpus import stopwords
 import numpy as np
 import nltk
 from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn import preprocessing
+from collections import Counter
 import pickle
 
 def normalise_review( raw_review ):
@@ -45,3 +48,28 @@ for i in range (0, len(reviews.rating)):
 
 print clean_train_reviews
 print rating_list
+
+vectorizer = CountVectorizer(analyzer = "word", tokenizer = None, \
+                             preprocessor = None, stop_words = None, \
+                             max_features = 1600)
+train_data_features = vectorizer.fit_transform(clean_train_reviews)
+train_data_features = train_data_features.toarray()
+vocab = vectorizer.get_feature_names()
+
+list_features = []
+
+for review in clean_train_reviews:
+	review_token = nltk.word_tokenize(review)
+	review_count = Counter(review_token)
+	temp_list = []
+	for words in vocab:
+		temp_list.append(review_count[words])
+
+	list_features.append(temp_list)
+
+scaler = preprocessing.StandardScaler().fit(list_features)
+list_features = np.array(list_features)
+
+fileObject = open('STDSCALER', 'wb')
+pickle.dump(scaler, fileObject2)
+fileObject.close()
