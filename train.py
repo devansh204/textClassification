@@ -28,6 +28,7 @@ def normalise_review( raw_review ):
 	stops = set(stopwords.words("english"))
 	meaningful_words = [w for w in raw_review if not w in stops]
 	meaningful_words = nltk.pos_tag(meaningful_words)
+	# We consider all the adjectives and adverbs
 	tag_list = ['JJ','JJR','JJS','RB','RBS','RBR']
 	normalised_data = []
 	for values in meaningful_words:
